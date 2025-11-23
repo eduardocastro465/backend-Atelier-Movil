@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 /* ---------- POST ---------- */
 const PostSchema = new mongoose.Schema({
   usuariaId:  { type: mongoose.Schema.Types.ObjectId, ref: "Usuarios", required: true },
-  imagenUrl:  { type: String, required: true },
+  imagenUrls:  { type: [String], required: true, default: [] }, // ← CAMBIO: Array de URLs
   descripcion:{ type: String, maxlength: 500 },
   etiqueta:   { type: String, enum: ["comprado", "rentado", "propio"], default: "propio" },
   aprobado:   { type: Boolean, default: false },

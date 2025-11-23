@@ -93,6 +93,17 @@ app.use((req, res, next) => {
   res.removeHeader("X-Powered-By");
   next();
 });
+// RUTA DE DIAGNÓSTICO (añádela temporalmente a tu app Express)
+app.post("/debug-multipart", (req, res) => {
+  console.log("=== Debug Multipart ===");
+  console.log("content-type:", req.headers['content-type']);
+  let len = 0;
+  req.on('data', chunk => { len += chunk.length; });
+  req.on('end', () => {
+    console.log("body-length:", len);
+    res.status(200).json({ ok: true, contentType: req.headers['content-type'], bodyLength: len });
+  });
+});
 
 app.use(updateLastActivity);
 
