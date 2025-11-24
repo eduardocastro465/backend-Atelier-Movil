@@ -1,40 +1,42 @@
+// En tu archivo de rutas (socialRoutes.js)
+
 const express = require('express');
 const router = express.Router();
-const ctrl = require("../Controllers/socialController");
+const postController = require('../controllers/socialController');
 
-const upload = require("../middleware/multer");
-// ======================
-// Rutas de posts
-// ======================
-// Crear post con múltiples imágenes (CORREGIDO)
-router.post("/", upload.fields([{ name: "imagenes", maxCount: 10 }]), ctrl.crearPost);
-router.get("/no-aprobados", ctrl.listarPostsNoAprobados);
-router.get("/detalle/:id", ctrl.detallePostById);
-router.get("/likes/:usuariaId", ctrl.misLikes);
-router.get("/aprobados", ctrl.listarPosts);
+// Rutas para posts completos
+router.get('/posts-completos', postController.listarPostsCompletos);
+router.get('/posts-aprobados', postController.listarPostsAprobados);
+router.get('/posts-pendientes', postController.listarPostsPendientes);
+router.get('/posts-usuario/:usuariaId', postController.listarPostsPorUsuaria);
+router.get('/posts-con-like/:usuariaId', postController.postsConLikeDeUsuaria);
+router.get('/post-completo/:id', postController.detallePostCompleto);
 
+// Rutas existentes (mantener estas)
+router.post('/crear', postController.crearPost);
+router.get('/:id', postController.detallePostById);
+router.get('/', postController.listarPosts);
+router.get('/no-aprobados', postController.listarPostsNoAprobados);
+router.put('/aprobar/:id', postController.aprobarPost);
+router.delete('/:id', postController.eliminarPost);
+router.put('/editar/:id', postController.editarPost);
 
-// Editar post con múltiples imágenes (CORREGIDO)
-router.put(
-  "/:id",
-  upload.fields([{ name: "imagenes", maxCount: 10 }]),
-  ctrl.editarPost
-);
+// Likes
+router.post('/:usuariaId/like', postController.darLike);
+router.delete('/:usuariaId/like', postController.quitarLike);
+router.get('/likes/:usuariaId', postController.misLikes);
 
-router.post("/:id/aprobar", ctrl.aprobarPost);
-router.delete("/:id", ctrl.eliminarPost);
+// Comentarios
+router.post('/comentarios', postController.comentar);
+router.get('/comentarios/:postId', postController.listarComentarios);
+router.delete('/comentarios/:id', postController.borrarComentario);
 
-// ======================
-// Rutas de interacciones
-// ======================
-router.post("/likes", ctrl.darLike);
-router.delete("/likes", ctrl.quitarLike);
+// Guardados
+router.post('/guardados', postController.guardarPost);
+router.delete('/guardados', postController.quitarGuardado);
+router.get('/guardados/:usuariaId', postController.misGuardados);
 
-router.post("/comentarios", ctrl.comentar);
-router.get("/comentarios/:postId", ctrl.listarComentarios);
-router.delete("/comentarios/:id", ctrl.borrarComentario);
-
-router.post("/guardados", ctrl.guardarPost);
-router.delete("/guardados", ctrl.quitarGuardado);
+// Posts con detalles (ya existente)
+router.get('/post-detalles', postController.listarPostsConLikes);
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const fs = require("fs-extra");
+const mongoose = require("mongoose");       // ← FALTABA ESTO
 const cloudinary = require("cloudinary").v2;
 const { Post, Like, Comentario, Guardado } = require("../Models/social");
 
@@ -461,5 +462,548 @@ exports.misLikes = async (req, res) => {
   } catch (e) {
     console.error("❌ Error en misLikes:", e.message);
     res.status(500).json({ error: e.message });
+  }
+};
+
+exports.listarPostsConLikes = async (req, res) => {
+  console.log("=== INICIANDO listarPostsConLikes ===");
+
+  try {
+    const posts = await Post.aggregate([
+      { $match: { aprobado: true } },
+
+      // Información completa de la usuaria
+      {
+        $lookup: {
+          from: "usuarios",
+          localField: "usuariaId",
+          foreignField: "_id",
+          as: "usuaria"
+        }
+      },
+      { $unwind: "$usuaria" },
+
+      // Likes del post
+      {
+        $lookup: {
+          from: "likes",
+          localField: "_id",
+          foreignField: "postId",
+          as: "likes"
+        }
+      },
+
+      // Comentarios del post
+      {
+        $lookup: {
+          from: "comentarios",
+          localField: "_id",
+          foreignField: "postId",
+          as: "comentarios"
+        }
+      },
+
+      // Guardados del post
+      {
+        $lookup: {
+          from: "guardados",
+          localField: "_id",
+          foreignField: "postId",
+          as: "guardados"
+        }
+      },
+
+      // Agregar conteos
+      {
+        $addFields: {
+          likesCount: { $size: "$likes" },
+          comentariosCount: { $size: "$comentarios" },
+          guardadosCount: { $size: "$guardados" }
+        }
+      },
+
+      // Ordenar por fecha
+      { $sort: { fecha: -1 } }
+    ]);
+
+    console.log(`Posts encontrados: ${posts.length}`);
+    res.json(posts);
+
+  } catch (error) {
+    console.error("Error en listarPostsConLikes:", error);
+    res.status(500).json({ error: "Error al obtener los posts" });
+  }
+};
+
+
+
+// 
+// En tu archivo de controladores (socialController.js)
+
+/* ---------- OBTENER TODOS LOS POSTS CON DETALLES COMPLETOS ---------- */
+exports.listarPostsCompletos = async (req, res) => {
+  console.log("=== INICIANDO listarPostsCompletos ===");
+
+  try {
+    const posts = await Post.aggregate([
+      // Información completa de la usuaria
+      {
+        $lookup: {
+          from: "usuarios",
+          localField: "usuariaId",
+          foreignField: "_id",
+          as: "usuaria"
+        }
+      },
+      { $unwind: "$usuaria" },
+
+      // Likes del post
+      {
+        $lookup: {
+          from: "likes",
+          localField: "_id",
+          foreignField: "postId",
+          as: "likes"
+        }
+      },
+
+      // Comentarios del post
+      {
+        $lookup: {
+          from: "comentarios",
+          localField: "_id",
+          foreignField: "postId",
+          as: "comentarios"
+        }
+      },
+
+      // Guardados del post
+      {
+        $lookup: {
+          from: "guardados",
+          localField: "_id",
+          foreignField: "postId",
+          as: "guardados"
+        }
+      },
+
+      // Agregar conteos
+      {
+        $addFields: {
+          likesCount: { $size: "$likes" },
+          comentariosCount: { $size: "$comentarios" },
+          guardadosCount: { $size: "$guardados" }
+        }
+      },
+
+      // Ordenar por fecha (más recientes primero)
+      { $sort: { fecha: -1 } }
+    ]);
+
+    console.log(`✅ Se encontraron ${posts.length} posts completos`);
+    res.json(posts);
+
+  } catch (error) {
+    console.error("❌ Error en listarPostsCompletos:", error);
+    res.status(500).json({ error: "Error al obtener los posts completos" });
+  }
+};
+
+/* ---------- OBTENER POSTS POR USUARIA ESPECÍFICA ---------- */
+exports.listarPostsPorUsuaria = async (req, res) => {
+  console.log("=== INICIANDO listarPostsPorUsuaria ===");
+  console.log("📥 usuariaId recibido en params:", req.params.usuariaId);
+
+  try {
+    const posts = await Post.aggregate([
+      // Filtrar por usuaria específica
+      { 
+        $match: { 
+          usuariaId:new  mongoose.Types.ObjectId(req.params.usuariaId) 
+        } 
+      },
+
+      // Información completa de la usuaria
+      {
+        $lookup: {
+          from: "usuarios",
+          localField: "usuariaId",
+          foreignField: "_id",
+          as: "usuaria"
+        }
+      },
+      { $unwind: "$usuaria" },
+
+      // Likes del post
+      {
+        $lookup: {
+          from: "likes",
+          localField: "_id",
+          foreignField: "postId",
+          as: "likes"
+        }
+      },
+
+      // Comentarios del post
+      {
+        $lookup: {
+          from: "comentarios",
+          localField: "_id",
+          foreignField: "postId",
+          as: "comentarios"
+        }
+      },
+
+      // Guardados del post
+      {
+        $lookup: {
+          from: "guardados",
+          localField: "_id",
+          foreignField: "postId",
+          as: "guardados"
+        }
+      },
+
+      // Agregar conteos
+      {
+        $addFields: {
+          likesCount: { $size: "$likes" },
+          comentariosCount: { $size: "$comentarios" },
+          guardadosCount: { $size: "$guardados" }
+        }
+      },
+
+      // Ordenar por fecha (más recientes primero)
+      { $sort: { fecha: -1 } }
+    ]);
+
+    console.log(`✅ Se encontraron ${posts.length} posts para la usuaria`);
+    res.json(posts);
+
+  } catch (error) {
+    console.error("❌ Error en listarPostsPorUsuaria:", error);
+    res.status(500).json({ error: "Error al obtener los posts de la usuaria" });
+  }
+};
+
+/* ---------- OBTENER POSTS APROBADOS ---------- */
+exports.listarPostsAprobados = async (req, res) => {
+  console.log("=== INICIANDO listarPostsAprobados ===");
+
+  try {
+    const posts = await Post.aggregate([
+      // Solo posts aprobados
+      { $match: { aprobado: true } },
+
+      // Información completa de la usuaria
+      {
+        $lookup: {
+          from: "usuarios",
+          localField: "usuariaId",
+          foreignField: "_id",
+          as: "usuaria"
+        }
+      },
+      { $unwind: "$usuaria" },
+
+      // Likes del post
+      {
+        $lookup: {
+          from: "likes",
+          localField: "_id",
+          foreignField: "postId",
+          as: "likes"
+        }
+      },
+
+      // Comentarios del post
+      {
+        $lookup: {
+          from: "comentarios",
+          localField: "_id",
+          foreignField: "postId",
+          as: "comentarios"
+        }
+      },
+
+      // Guardados del post
+      {
+        $lookup: {
+          from: "guardados",
+          localField: "_id",
+          foreignField: "postId",
+          as: "guardados"
+        }
+      },
+
+      // Agregar conteos
+      {
+        $addFields: {
+          likesCount: { $size: "$likes" },
+          comentariosCount: { $size: "$comentarios" },
+          guardadosCount: { $size: "$guardados" }
+        }
+      },
+
+      // Ordenar por fecha
+      { $sort: { fecha: -1 } }
+    ]);
+
+    console.log(`✅ Se encontraron ${posts.length} posts aprobados`);
+    res.json(posts);
+
+  } catch (error) {
+    console.error("❌ Error en listarPostsAprobados:", error);
+    res.status(500).json({ error: "Error al obtener los posts aprobados" });
+  }
+};
+
+/* ---------- OBTENER POSTS PENDIENTES ---------- */
+exports.listarPostsPendientes = async (req, res) => {
+  console.log("=== INICIANDO listarPostsPendientes ===");
+
+  try {
+    const posts = await Post.aggregate([
+      // Solo posts pendientes (aprobado: null o false)
+      { 
+        $match: { 
+          $or: [
+            { aprobado: null },
+            { aprobado: false }
+          ]
+        } 
+      },
+
+      // Información completa de la usuaria
+      {
+        $lookup: {
+          from: "usuarios",
+          localField: "usuariaId",
+          foreignField: "_id",
+          as: "usuaria"
+        }
+      },
+      { $unwind: "$usuaria" },
+
+      // Likes del post
+      {
+        $lookup: {
+          from: "likes",
+          localField: "_id",
+          foreignField: "postId",
+          as: "likes"
+        }
+      },
+
+      // Comentarios del post
+      {
+        $lookup: {
+          from: "comentarios",
+          localField: "_id",
+          foreignField: "postId",
+          as: "comentarios"
+        }
+      },
+
+      // Guardados del post
+      {
+        $lookup: {
+          from: "guardados",
+          localField: "_id",
+          foreignField: "postId",
+          as: "guardados"
+        }
+      },
+
+      // Agregar conteos
+      {
+        $addFields: {
+          likesCount: { $size: "$likes" },
+          comentariosCount: { $size: "$comentarios" },
+          guardadosCount: { $size: "$guardados" }
+        }
+      },
+
+      // Ordenar por fecha
+      { $sort: { fecha: -1 } }
+    ]);
+
+    console.log(`✅ Se encontraron ${posts.length} posts pendientes`);
+    res.json(posts);
+
+  } catch (error) {
+    console.error("❌ Error en listarPostsPendientes:", error);
+    res.status(500).json({ error: "Error al obtener los posts pendientes" });
+  }
+};
+
+/* ---------- OBTENER POSTS QUE EL USUARIO HA DADO LIKE ---------- */
+exports.postsConLikeDeUsuaria = async (req, res) => {
+  console.log("=== INICIANDO postsConLikeDeUsuaria ===");
+  console.log("📥 usuariaId recibido en params:", req.params.usuariaId);
+
+  try {
+    const posts = await Post.aggregate([
+      // Unir con la colección de likes para filtrar posts que la usuaria ha dado like
+      {
+        $lookup: {
+          from: "likes",
+          let: { postId: "$_id" },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$postId", "$$postId"] },
+                    { $eq: ["$usuariaId",new mongoose.Types.ObjectId(req.params.usuariaId)] }
+                  ]
+                }
+              }
+            }
+          ],
+          as: "likeDeUsuaria"
+        }
+      },
+      
+      // Solo posts que tienen like de esta usuaria
+      { $match: { "likeDeUsuaria.0": { $exists: true } } },
+
+      // Información completa de la usuaria del post
+      {
+        $lookup: {
+          from: "usuarios",
+          localField: "usuariaId",
+          foreignField: "_id",
+          as: "usuaria"
+        }
+      },
+      { $unwind: "$usuaria" },
+
+      // Todos los likes del post
+      {
+        $lookup: {
+          from: "likes",
+          localField: "_id",
+          foreignField: "postId",
+          as: "likes"
+        }
+      },
+
+      // Comentarios del post
+      {
+        $lookup: {
+          from: "comentarios",
+          localField: "_id",
+          foreignField: "postId",
+          as: "comentarios"
+        }
+      },
+
+      // Guardados del post
+      {
+        $lookup: {
+          from: "guardados",
+          localField: "_id",
+          foreignField: "postId",
+          as: "guardados"
+        }
+      },
+
+      // Agregar conteos
+      {
+        $addFields: {
+          likesCount: { $size: "$likes" },
+          comentariosCount: { $size: "$comentarios" },
+          guardadosCount: { $size: "$guardados" },
+          // Indicar que este usuario específico ha dado like
+          hasLiked: true
+        }
+      },
+
+      // Ordenar por fecha del like (más recientes primero)
+      { $sort: { "likeDeUsuaria.fecha": -1 } }
+    ]);
+
+    console.log(`✅ Se encontraron ${posts.length} posts con like de la usuaria`);
+    res.json(posts);
+
+  } catch (error) {
+    console.error("❌ Error en postsConLikeDeUsuaria:", error);
+    res.status(500).json({ error: "Error al obtener los posts con like" });
+  }
+};
+
+/* ---------- OBTENER DETALLES DE UN POST ESPECÍFICO ---------- */
+exports.detallePostCompleto = async (req, res) => {
+  console.log("=== INICIANDO detallePostCompleto ===");
+  console.log("📥 ID recibido en params:", req.params.id);
+
+  try {
+    const posts = await Post.aggregate([
+      // Filtrar por ID específico
+      { $match: { _id: mongoose.Types.ObjectId(req.params.id) } },
+
+      // Información completa de la usuaria
+      {
+        $lookup: {
+          from: "usuarios",
+          localField: "usuariaId",
+          foreignField: "_id",
+          as: "usuaria"
+        }
+      },
+      { $unwind: "$usuaria" },
+
+      // Likes del post
+      {
+        $lookup: {
+          from: "likes",
+          localField: "_id",
+          foreignField: "postId",
+          as: "likes"
+        }
+      },
+
+      // Comentarios del post (con información del usuario que comentó)
+      {
+        $lookup: {
+          from: "comentarios",
+          localField: "_id",
+          foreignField: "postId",
+          as: "comentarios"
+        }
+      },
+
+      // Guardados del post
+      {
+        $lookup: {
+          from: "guardados",
+          localField: "_id",
+          foreignField: "postId",
+          as: "guardados"
+        }
+      },
+
+      // Agregar conteos
+      {
+        $addFields: {
+          likesCount: { $size: "$likes" },
+          comentariosCount: { $size: "$comentarios" },
+          guardadosCount: { $size: "$guardados" }
+        }
+      }
+    ]);
+
+    if (posts.length === 0) {
+      console.log("❌ Post no encontrado");
+      return res.status(404).json({ error: "Post no encontrado" });
+    }
+
+    console.log("✅ Post encontrado con todos los detalles");
+    res.json(posts[0]);
+
+  } catch (error) {
+    console.error("❌ Error en detallePostCompleto:", error);
+    res.status(500).json({ error: "Error al obtener el post" });
   }
 };
