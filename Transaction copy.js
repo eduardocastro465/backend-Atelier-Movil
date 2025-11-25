@@ -7,45 +7,460 @@ const uri = "mongodb+srv://nico:nico123@cluster0.xa138vm.mongodb.net/bdAtr";
 
 // IDs de usuario existentes (puedes añadir más si tienes)
 const userIds = [
-    "671095f84ec281b5e1fdf085", "6734d583487212b78abebf8e", "6759de427895ade8251b6295",
-    "67c686af1cfccf3f08b0ec23", "67daf51df4ed8050c7b72619", "67daf757f4ed8050c7b72622",
-    "67daf763f4ed8050c7b7262a", "67daf771f4ed8050c7b72632", "67daf77ef4ed8050c7b7263a",
-    "67daf78df4ed8050c7b72642", "67daf7a1f4ed8050c7b7264a", "67daf7adf4ed8050c7b72652",
-    "67daf7bff4ed8050c7b7265a", "67daf7c9f4ed8050c7b72662", "67daf7d5f4ed8050c7b7266a",
-    "67daf7e0f4ed8050c7b72672", "67daf7ebf4ed8050c7b7267a", "67daf8aef4ed8050c7b72692",
-    "67daf8baf4ed8050c7b7269a", "67daf8c5f4ed8050c7b726a2", "67dd9094ece929a0fadc7fa9",
-    "67de3ed8b3a4e8f9bb07fad5", "67de465b0dd48d20c6d68560", "669b7e1a3c7f8e1d2b3c4d01",
-    "669b7e1a3c7f8e1d2b3c4d03", "669b7e1a3c7f8e1d2b3c4d05", "669b7e1a3c7f8e1d2b3c4d07"
+  {
+    "_id": "67daf51df4ed8050c7b72619"
+  },
+  {
+    "_id": "67daf757f4ed8050c7b72622"
+  },
+  {
+    "_id": "67daf763f4ed8050c7b7262a"
+  },
+  {
+    "_id": "67daf771f4ed8050c7b72632"
+  },
+  {
+    "_id": "67daf77ef4ed8050c7b7263a"
+  },
+  {
+    "_id": "67daf78df4ed8050c7b72642"
+  },
+  {
+    "_id": "67daf7a1f4ed8050c7b7264a"
+  },
+  {
+    "_id": "67daf7adf4ed8050c7b72652"
+  },
+  {
+    "_id": "67daf7bff4ed8050c7b7265a"
+  },
+  {
+    "_id": "67daf7c9f4ed8050c7b72662"
+  },
+  {
+    "_id": "67daf7d5f4ed8050c7b7266a"
+  },
+  {
+    "_id": "67daf7e0f4ed8050c7b72672"
+  },
+  {
+    "_id": "67daf7ebf4ed8050c7b7267a"
+  },
+  {
+    "_id": "67daf7f6f4ed8050c7b72682"
+  },
+  {
+    "_id": "67daf854f4ed8050c7b7268a"
+  },
+  {
+    "_id": "67daf8aef4ed8050c7b72692"
+  },
+  {
+    "_id": "67daf8baf4ed8050c7b7269a"
+  },
+  {
+    "_id": "67daf8c5f4ed8050c7b726a2"
+  },
+  {
+    "_id": "67daf8d0f4ed8050c7b726aa"
+  },
+  {
+    "_id": "67daf8dbf4ed8050c7b726b2"
+  },
+  {
+    "_id": "67de3ed8b3a4e8f9bb07fad5"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d33"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d4b"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d01"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d19"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d09"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d0d"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d0b"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d11"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d2b"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d49"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d15"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d41"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d4f"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d2f"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d3b"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d29"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d3d"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d17"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d1f"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d25"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d37"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d43"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d03"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d23"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d51"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d07"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d1b"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d21"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d05"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d13"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d2d"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d35"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d3f"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d0f"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d27"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d31"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d39"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d45"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d1d"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d47"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d4d"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d5b"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d53"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d57"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d55"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d59"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d5d"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d67"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d61"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d63"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d6d"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d65"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d6b"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d5f"
+  },
+  {
+    "_id": "669b7e1a3c7f8e1d2b3c4d69"
+  },
+  {
+    "_id": "68905a39086e9b9bf480da0f"
+  },
+  {
+    "_id": "68905a3a086e9b9bf480da15"
+  },
+  {
+    "_id": "68905a3b086e9b9bf480da1b"
+  },
+  {
+    "_id": "68905a3c086e9b9bf480da21"
+  },
+  {
+    "_id": "68905a3d086e9b9bf480da27"
+  },
+  {
+    "_id": "68905a3e086e9b9bf480da2d"
+  },
+  {
+    "_id": "68905a3e086e9b9bf480da33"
+  },
+  {
+    "_id": "68905a3f086e9b9bf480da39"
+  },
+  {
+    "_id": "68905a40086e9b9bf480da3f"
+  },
+  {
+    "_id": "68905a41086e9b9bf480da45"
+  },
+  {
+    "_id": "68905a42086e9b9bf480da4b"
+  },
+  {
+    "_id": "68905a43086e9b9bf480da51"
+  },
+  {
+    "_id": "68905a44086e9b9bf480da57"
+  },
+  {
+    "_id": "68905a45086e9b9bf480da5d"
+  },
+  {
+    "_id": "68905a46086e9b9bf480da63"
+  },
+  {
+    "_id": "68905a46086e9b9bf480da69"
+  },
+  {
+    "_id": "68905a47086e9b9bf480da6f"
+  },
+  {
+    "_id": "68905a48086e9b9bf480da75"
+  },
+  {
+    "_id": "68905a49086e9b9bf480da7b"
+  },
+  {
+    "_id": "68905a4a086e9b9bf480da81"
+  },
+  {
+    "_id": "68905a4b086e9b9bf480da87"
+  },
+  {
+    "_id": "68905a4c086e9b9bf480da8d"
+  },
+  {
+    "_id": "68905a4d086e9b9bf480da93"
+  },
+  {
+    "_id": "68905a4e086e9b9bf480da99"
+  },
+  {
+    "_id": "68905a4f086e9b9bf480da9f"
+  },
+  {
+    "_id": "68905a50086e9b9bf480daa5"
+  },
+  {
+    "_id": "68905a51086e9b9bf480daab"
+  },
+  {
+    "_id": "68905a51086e9b9bf480dab1"
+  },
+  {
+    "_id": "68905a53086e9b9bf480dab9"
+  },
+  {
+    "_id": "68905a53086e9b9bf480dabf"
+  },
+  {
+    "_id": "68905a54086e9b9bf480dac5"
+  },
+  {
+    "_id": "68905a55086e9b9bf480dacb"
+  },
+  {
+    "_id": "68905a56086e9b9bf480dad1"
+  },
+  {
+    "_id": "68905a57086e9b9bf480dad7"
+  },
+  {
+    "_id": "68905a58086e9b9bf480dadd"
+  },
+  {
+    "_id": "68905a59086e9b9bf480dae3"
+  },
+  {
+    "_id": "68905a5a086e9b9bf480daeb"
+  },
+  {
+    "_id": "68905a5b086e9b9bf480daf1"
+  },
+  {
+    "_id": "68905a5c086e9b9bf480daf7"
+  },
+  {
+    "_id": "68905a5d086e9b9bf480dafd"
+  },
+  {
+    "_id": "68905a5d086e9b9bf480db03"
+  },
+  {
+    "_id": "68905a5e086e9b9bf480db09"
+  },
+  {
+    "_id": "68905a5f086e9b9bf480db0f"
+  },
+  {
+    "_id": "68905a60086e9b9bf480db15"
+  },
+  {
+    "_id": "68905a62086e9b9bf480db1d"
+  },
+  {
+    "_id": "68905a63086e9b9bf480db23"
+  },
+  {
+    "_id": "68905a64086e9b9bf480db29"
+  },
+  {
+    "_id": "68905a64086e9b9bf480db2f"
+  },
+  {
+    "_id": "68905a65086e9b9bf480db35"
+  },
+  {
+    "_id": "68905a66086e9b9bf480db3b"
+  },
+  {
+    "_id": "68905a67086e9b9bf480db41"
+  },
+  {
+    "_id": "68905a68086e9b9bf480db47"
+  },
+  {
+    "_id": "68905a69086e9b9bf480db4f"
+  },
+  {
+    "_id": "68905a6a086e9b9bf480db55"
+  },
+  {
+    "_id": "68905a6b086e9b9bf480db5b"
+  },
+  {
+    "_id": "68905a6c086e9b9bf480db61"
+  },
+  {
+    "_id": "68905a6d086e9b9bf480db67"
+  },
+  {
+    "_id": "68905a6e086e9b9bf480db6d"
+  },
+  {
+    "_id": "68905a6f086e9b9bf480db73"
+  },
+  {
+    "_id": "68905a6f086e9b9bf480db79"
+  },
+  {
+    "_id": "68905a71086e9b9bf480db81"
+  },
+  {
+    "_id": "68905a71086e9b9bf480db87"
+  },
+  {
+    "_id": "68905a72086e9b9bf480db8d"
+  },
+  {
+    "_id": "68905a73086e9b9bf480db93"
+  },
+  {
+    "_id": "68905a74086e9b9bf480db99"
+  },
+  {
+    "_id": "68905a75086e9b9bf480db9f"
+  },
+  {
+    "_id": "68905a76086e9b9bf480dba5"
+  },
+  {
+    "_id": "68905a77086e9b9bf480dbab"
+  }
 ];
 
-// Distribución de usuarios por municipio (solo para simulación)
+// Distribución de usuarios por municipio (lógica de cercanía a Huejutla, total 114 usuarios)
+// Basado en la distancia, los municipios más cercanos tienen más usuarios.
 const userDistribution = {
-    "Huejutla de Reyes": 22,
-    "Atlapeza": 12,
-    "Guazalingo": 12,
-    "Choconamel": 11,
-    "San Felipe Orizatlán": 5,
-    "Tlachinol": 5,
-    "Jaltocán": 3,
-    "Calnali": 3,
-    "Chalma": 5,
-    "Platón Sánchez": 4
+    "Huejutla de Reyes": 38, // Central, la mayor cantidad
+    "San Felipe Orizatlán": 20, // Muy cerca de Huejutla
+    "Atlapexco": 18, // Cerca de Huejutla
+    "Jaltocán": 10, // Cerca
+    "Tlanchinol": 8, // A una distancia moderada
+    "Huautla": 7, // A una distancia moderada
+    "Huazalingo": 6, // A una distancia moderada
+    "Calnali": 3, // Más lejos
+    "Platón Sánchez": 2, // Más lejos
+    "Chapulhuacán": 2, // Más lejos
 };
 
-// Asignar IDs de usuario a municipios para simular la distribución
-const usersByMunicipio = {
-    "Huejutla de Reyes": [],
-    "Atlapeza": [],
-    "Guazalingo": [],
-    "Choconamel": [],
-    "San Felipe Orizatlán": [],
-    "Tlachinol": [],
-    "Jaltocán": [],
-    "Calnali": [],
-    "Chalma": [],
-    "Platón Sánchez": []
-};
-
+// Asignar IDs de usuario a municipios
+const usersByMunicipio = {};
+for (const municipio in userDistribution) {
+    usersByMunicipio[municipio] = [];
+}
 let userIndex = 0;
 for (const municipio in userDistribution) {
     const count = userDistribution[municipio];
@@ -156,9 +571,9 @@ async function insertRealisticTransactions() {
 
         const transactions = [];
         const numTransactionsToGenerate = 500;
-        
+
         // **MODIFICACIÓN CLAVE: Establecer el año de las transacciones a 2023**
-        const targetYear = 2023; 
+        const targetYear = 2023;
 
         for (let i = 0; i < numTransactionsToGenerate; i++) {
             // Seleccionar un vestido aleatorio de la lista obtenida
@@ -168,7 +583,7 @@ async function insertRealisticTransactions() {
             const preferHuejutla = Math.random() < 0.6; // 60% de probabilidad de preferir Huejutla
             const userId = getRandomUserId(preferHuejutla);
 
-            const tipoTransaccion = Math.random() < 0.65 ? "renta" : "Venta"; // 65% rentas, 35% ventas
+            const tipoTransaccion = Math.random() < 0.35 ? "renta" : "Venta"; // 35% rentas, 5% ventas
             const total = tipoTransaccion === "Venta" ? (vestido.precio_venta || getRandomInt(800, 5000)) : (vestido.precio_renta || getRandomInt(300, 1500));
             const metodoPago = ["efectivo", "tarjeta_credito", "tarjeta_debito", "transferencia_bancaria"][Math.floor(Math.random() * 4)];
             const estado = "Completada"; // Asumimos que todas se insertan como completadas
@@ -201,7 +616,7 @@ async function insertRealisticTransactions() {
             }
 
             // **MODIFICACIÓN APLICADA AQUÍ:** Se pasa 'targetYear' como el rango de años
-            fechaTransaccion = getRandomDate(targetYear, targetYear, monthBias); 
+            fechaTransaccion = getRandomDate(targetYear, targetYear, monthBias);
             const fechaUltimoPago = new Date(fechaTransaccion.getTime() + getRandomInt(5, 60) * 60 * 1000); // 5-60 minutos después
 
             const transaction = {

@@ -518,7 +518,11 @@ exports.BuscaUsuarioByPreguntayRespuesta = async (req, res) => {
 exports.obtenerUsuarios = async (req, res) => {
   try {
     // Excluye el usuario con el rol "admin" de la consulta
-    const usuarios = await Usuario.find({ rol: { $ne: "ADMIN" } });
+     const usuarios = await Usuario.find({
+      rol: { $ne: "ADMIN" },
+      nombre: { $ne: "TITULAR" }
+    }).select('_id');
+
     res.json(usuarios);
   } catch (error) {
     // logger.error(`Error en obtenerUsuarios: ${error.message}`);

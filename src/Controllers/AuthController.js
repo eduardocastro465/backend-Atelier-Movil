@@ -152,19 +152,19 @@ exports.Login = async (req, res) => {
     }
 
     // Verificar CAPTCHA
-    const isCaptchaValid = await verifyTurnstile(captchaToken);
-    if (!isCaptchaValid) {
-      const logData = {
-        ...logContext,
-        level: 'warn',
-        event: 'login_failed',
-        reason: 'captcha_invalido'
-      };
+    // const isCaptchaValid = await verifyTurnstile(captchaToken);
+    // if (!isCaptchaValid) {
+    //   const logData = {
+    //     ...logContext,
+    //     level: 'warn',
+    //     event: 'login_failed',
+    //     reason: 'captcha_invalido'
+    //   };
 
-      // logger.warn('Intento de login con CAPTCHA inválido', logData);
+    //   // logger.warn('Intento de login con CAPTCHA inválido', logData);
 
-      return res.status(400).json({ message: "Captcha inválido" });
-    }
+    //   return res.status(400).json({ message: "Captcha inválido" });
+    // }
 
     // Resetear intentos fallidos
     estadoCuenta.intentosFallidos = 0;
@@ -212,8 +212,14 @@ exports.Login = async (req, res) => {
     return res.status(200).json({
       token,
       rol: usuario.rol,
-      captchaValid: isCaptchaValid
+      usuario: {
+        nombre: usuario.nombre,
+        email: usuario.email,
+        rol: usuario.rol,
+        fotoDePerfil: usuario.fotoDePerfil,
+      }
     });
+
 
   } catch (error) {
     const errorLog = {

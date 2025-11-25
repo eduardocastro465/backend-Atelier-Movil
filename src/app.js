@@ -93,6 +93,17 @@ app.use((req, res, next) => {
   res.removeHeader("X-Powered-By");
   next();
 });
+// RUTA DE DIAGNÓSTICO (añádela temporalmente a tu app Express)
+app.post("/debug-multipart", (req, res) => {
+  console.log("=== Debug Multipart ===");
+  console.log("content-type:", req.headers['content-type']);
+  let len = 0;
+  req.on('data', chunk => { len += chunk.length; });
+  req.on('end', () => {
+    console.log("body-length:", len);
+    res.status(200).json({ ok: true, contentType: req.headers['content-type'], bodyLength: len });
+  });
+});
 
 app.use(updateLastActivity);
 
@@ -130,12 +141,13 @@ app.use(`/api/${apiVersion}/chatbot`, require("./Routes/chatbot.routes.js"));
 app.use(`/api/${apiVersion}/transaccion`, require("./Routes/transactionRoutes.js"));
 // ruta carrito
 app.use(`/api/${apiVersion}/carrito`, require("./Routes/CarritoRoute"));
+app.use(`/api/${apiVersion}/carrito`, require("./Routes/CarritoRoute"));
 
 
 // Ruta para acciones control de Administrador de la página
 app.use(`/api/${apiVersion}/admin`, require("./Routes/PrivadoRoute"));
 app.use(`/api/${apiVersion}/politicas`, require("./Routes/PoliticasRoute.js"));
-app.use(`/api/${apiVersion}/resenia`, require("./Routes/ReseniaRoute.js"));
+app.use(`/api/${apiVersion}/posts`, require("./Routes/socialRoutes.js"));
 
 // Ruta para acciones con rol de Administrador
 app.use(`/api/${apiVersion}/usuarios`, require("./Routes/UsuarioRoute"));

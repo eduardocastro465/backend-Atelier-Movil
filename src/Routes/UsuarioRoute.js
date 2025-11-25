@@ -38,5 +38,6 @@ router.post("/correo", UsuarioController.BuscaUsuarioByCorreo);
 router.get("/miPerfil/:correo", UsuarioController.perfilUsuario);
 router.post("/respuesta", UsuarioController.BuscaUsuarioByPreguntayRespuesta);
 // router.post("/signIn", UsuarioController.Login);
+// router.post("/crearVariosUsuarios", UsuarioController.crearVariosUsuarios);
 router.get("/", UsuarioController.obtenerUsuarios);
 module.exports = router;
