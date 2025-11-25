@@ -2,7 +2,7 @@
 
 const express = require('express');
 const router = express.Router();
-const postController = require('../controllers/socialController');
+const postController = require('../controllers/social_Controller');
 
 router.get('/posts-completos', postController.listarPostsCompletos);
 router.get('/posts-aprobados', postController.listarPostsAprobados);
